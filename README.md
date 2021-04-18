@@ -1,5 +1,5 @@
 # Tic Tac Toe with AI
-> Simple Tic Tac Toe game with two modes, **1 v 1 mode** that you can play with your friends, and a **1 v AI mode**. The AI calculates the best next move using the **minimax algorithm**, so it's unbeatable.
+> Simple Tic Tac Toe game with two modes, **1 v 1 mode** that you can play with your friends, and a **1 v AI mode**. The AI calculates the best next move using the **minimax algorithm** and **alpha-beta pruning** to speed up search, so it's unbeatable.
 
 # Screenshots
 ![game.png](screenshots/game.png)
