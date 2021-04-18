@@ -1,7 +1,7 @@
 import numpy as np
 from .game import is_available, is_completed, is_winner
 
-def minimax(board, maximizing):
+def minimax(board, alpha, beta, maximizing):
     if is_winner(board, 2):
         return 1
 
@@ -18,9 +18,12 @@ def minimax(board, maximizing):
                 position = (col, row)
                 if is_available(board, position):
                     board[row][col] = 2
-                    score = minimax(board, False)
+                    score = minimax(board, alpha, beta, False)
                     board[row][col] = 0
-                    max_score = max(score, max_score)
+                    max_score = max(max_score, score)
+                    alpha = max(alpha, score)
+                    if beta <= alpha:
+                        break
         return max_score
     
     if not maximizing:
@@ -30,9 +33,12 @@ def minimax(board, maximizing):
                 position = (col, row)
                 if is_available(board, position):
                     board[row][col] = 1
-                    score = minimax(board, True)
+                    score = minimax(board, alpha, beta, True)
                     board[row][col] = 0
-                    min_score = min(score, min_score)
+                    min_score = min(min_score, score)
+                    beta = min(beta, score)
+                    if beta <= alpha:
+                        break
         return min_score
 
 def best_move(board):
@@ -42,7 +48,7 @@ def best_move(board):
             position = (col, row)
             if is_available(board, position):
                 board[row][col] = 2
-                score = minimax(board, False)
+                score = minimax(board, -np.inf, np.inf, False)
                 board[row][col] = 0
                 if score > best_score:
                     best_score = score

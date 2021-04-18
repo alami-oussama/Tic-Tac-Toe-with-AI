@@ -129,12 +129,11 @@ def restart():
         for col in range(3):
             board[row][col] = 0
     draw_board()
-    global start_player
+    global player
     if mode == 1:
-        start_player = 1   
-    elif mode == 2:
-        start_player = start_player % 2 + 1
-    return start_player
+        player = 1
+    else:
+        player = player % 2 + 1
 
 # Draw score
 score_w = 150
@@ -190,13 +189,14 @@ def change_mode(new_mode):
     if new_mode == mode:
         return None
     mode = new_mode # Change mode
-    restart() # Clear board
+    # Clear board
+    for row in range(3):
+        for col in range(3):
+            board[row][col] = 0
+    draw_board()
     score[0], score[1] = 0, 0 # Reset score
-    if mode == 2:
-        global start_player
-        start_player = 1
-    global mode_changed
-    mode_changed = True
+    global player
+    player = 1
 
 # Draw change mode buttons
 mode_w = 150
@@ -246,21 +246,21 @@ def hover(position):
 def main():
     draw_board()
     draw_mode()
+    global player
     restart_game.draw_button()
-    player = start_player
     clock = pygame.time.Clock()
-    mode_changed = False
     quit = False
-    while not quit and not mode_changed:
+    while not quit:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit = True
             if mode == 1 and player == 2:
+                pygame.display.update()
                 move = best_move(board)
                 draw_figures(move, player)
                 if game_over(player):
-                    player = restart()
+                    restart()
                 player = 1
             hover_position = pygame.mouse.get_pos()
             hover(hover_position)
@@ -273,21 +273,19 @@ def main():
                     draw_figures(position, player)
                     mark_square(board, position, player)
                     if game_over(player):
-                        player = restart()
+                        restart()
                         continue
                     player = player % 2 + 1
         
         pygame.display.update()
         draw_score(player)
 
-    if mode_changed:
-        main()
     pygame.quit()
 
 if __name__ == "__main__":
     board = np.zeros((3, 3)) # Initialize board
     start_player = 1 # Initialize start player
+    player = start_player
     score = [0, 0] # Initialize score
     mode = 1 # Initialize mode
-    mode_changed = False
     main()
