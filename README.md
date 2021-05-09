@@ -9,6 +9,7 @@
 # Requirements
 ## Windows and Mac
 - Install pyhton3: [https://www.python.org/download/releases/3.0/](https://www.python.org/download/releases/3.0/)
+- Install numpy: **pip install numpy** (*pip3 install numpy, python3 -m pip install numpy*)
 - Install pygame: **pip install pygame** (*pip3 install pygame, python3 -m pip install pygame*)
 - Run the game: **python main.py** (*python3 main.py*)
 
